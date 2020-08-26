@@ -1,6 +1,6 @@
 # README
 
-## REQUIREMENTS 1
+## Requirement 1
 
 ### Example Usage
 ```ruby

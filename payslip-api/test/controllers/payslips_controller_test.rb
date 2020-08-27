@@ -2,10 +2,12 @@ require 'test_helper'
 
 class PayslipsControllerTest < ActionDispatch::IntegrationTest
   test "will get monthly payslip" do
-    post '/monthly_payslip', params: {
-      employee_name: "Ren",
-      annual_salary: 60000
-    }, as: :json
+    assert_difference('Payslip.count') do
+      post '/monthly_payslip', params: {
+        employee_name: "Ren",
+        annual_salary: 60000
+      }, as: :json
+    end
     body = JSON.parse(response.body)
 
     assert_response :ok

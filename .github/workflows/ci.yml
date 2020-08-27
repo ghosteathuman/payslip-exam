@@ -1,18 +1,25 @@
 name: CI
 
-on:
-  push:
-    branches:
-      - '*'
-  pull_request:
-    branches:
-      - '*'
+on: [push, pull_request]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     container:
       image: ruby:2.7.1
+    env:
+      POSTGRES_HOST: postgres
+      RAILS_ENV: test
+    services:
+      postgres:
+        image: postgres:12.3-alpine
+        env:
+          POSTGRES_PASSWORD: payslip
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - name: Checkout Repository
@@ -26,3 +33,17 @@ jobs:
       working-directory: ./payslip-generator
       run: |
         ruby payslip_test.rb
+    - name: Install Ruby Dependencies for Ruby on Rails
+      working-directory: ./payslip-api
+      run: |
+        gem install bundler
+        bundle install
+    - name: Database Setup
+      working-directory: ./payslip-api
+      run: |
+        rails db:create
+        rails db:migrate
+    - name: Rails Test
+      working-directory: ./payslip-api
+      run: |
+        rails test

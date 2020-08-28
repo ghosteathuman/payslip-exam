@@ -1,6 +1,11 @@
 class PayslipsController < ActionController::Base
   skip_forgery_protection
 
+  def index
+    @payslips = Payslip.all
+    render json: { "salary_computations" => @payslips.as_json(:except => :id) }.to_json
+  end
+
   def generate_monthly_payslip
     if request['employee_name'].blank? || request['annual_salary'].to_i.negative?
       render json: { "Error": "Invalid input. Please ensure that the name is not empty and annual salary is not negative" }, status: :bad_request and return

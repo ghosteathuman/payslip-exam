@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  timestamp: 2020-08-28 20:00:00
+  employee_name: Ren
+  annual_salary: $60000.00
+  monthly_income_tax: $500.00
+
+two:
+  timestamp: 2020-08-28 21:00:00
+  employee_name: Ben
+  annual_salary: $200000.00
+  monthly_income_tax: $4000.00

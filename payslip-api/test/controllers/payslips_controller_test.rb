@@ -1,7 +1,25 @@
 require 'test_helper'
 
 class PayslipsControllerTest < ActionDispatch::IntegrationTest
-  test "will get monthly payslip" do
+  test "will get salary computations" do
+    get '/monthly_payslip', as: :json
+    body = JSON.parse(response.body)
+
+    assert_response :ok
+    assert_equal 2, body["salary_computations"].length
+
+    assert_equal "2020-08-28T20:00:00.000Z", body["salary_computations"][0]["timestamp"]
+    assert_equal "Ren", body["salary_computations"][0]["employee_name"]
+    assert_equal "$60000.00", body["salary_computations"][0]["annual_salary"]
+    assert_equal "$500.00", body["salary_computations"][0]["monthly_income_tax"]
+
+    assert_equal "2020-08-28T21:00:00.000Z", body["salary_computations"][1]["timestamp"]
+    assert_equal "Ben", body["salary_computations"][1]["employee_name"]
+    assert_equal "$200000.00", body["salary_computations"][1]["annual_salary"]
+    assert_equal "$4000.00", body["salary_computations"][1]["monthly_income_tax"]
+  end
+
+  test "will generate and store monthly payslip" do
     assert_difference('Payslip.count') do
       post '/monthly_payslip', params: {
         employee_name: "Ren",

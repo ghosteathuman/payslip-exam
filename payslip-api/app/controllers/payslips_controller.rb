@@ -10,12 +10,14 @@ class PayslipsController < ActionController::Base
     monthly_income_tax = calculate_income_tax(request['annual_salary'].to_i) / 12
     net_monthly_income = gross_monthly_income - monthly_income_tax
 
-    payslip = Payslip.create(timestamp: DateTime.current, employee_name: request['employee_name'], annual_salary: request['annual_salary'].to_i, monthly_income_tax: monthly_income_tax)
+    payslip = Payslip.create(timestamp: DateTime.current, employee_name: request['employee_name'],\
+                              annual_salary: "$#{sprintf('%.2f', request['annual_salary'])}",\
+                              monthly_income_tax: "$#{sprintf('%.2f', monthly_income_tax)}")
 
     render json: {
       "employee_name": payslip.employee_name,
       "gross_monthly_income": "$#{sprintf('%.2f', gross_monthly_income)}",
-      "monthly_income_tax": "$#{sprintf('%.2f', payslip.monthly_income_tax)}",
+      "monthly_income_tax": payslip.monthly_income_tax,
       "net_monthly_income": "$#{sprintf('%.2f', net_monthly_income)}"
     }
   end

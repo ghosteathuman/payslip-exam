@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_27_122905) do
+ActiveRecord::Schema.define(version: 2020_08_28_145738) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 2020_08_27_122905) do
   create_table "payslips", force: :cascade do |t|
     t.datetime "timestamp"
     t.string "employee_name"
-    t.decimal "annual_salary"
-    t.decimal "monthly_income_tax"
+    t.string "annual_salary"
+    t.string "monthly_income_tax"
   end
 
 end
